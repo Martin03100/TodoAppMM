@@ -1,0 +1,300 @@
+/* Celkové nastavenie farieb a fontov pre tmavší režim */
+body {
+  background-color: #121212;
+  color: #e0e0e0;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.App {
+  text-align: center;
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px;
+}
+
+/* Štýly pre prihlásenie */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.login-form input {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  width: 200px;
+  background-color: #333;
+  color: #e0e0e0;
+}
+
+.login-form button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.login-form button:hover {
+  background-color: #0056b3;
+}
+
+/* Hlavná plocha Dashboard */
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.dashboard h1 {
+  color: #ffffff;
+}
+
+.dashboard button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.dashboard button:hover {
+  background-color: #0056b3;
+}
+
+/* Štýl zoznamov */
+.lists {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  width: 100%;
+  padding: 20px;
+}
+
+.shopping-list {
+  background-color: #1e1e1e;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: left;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s;
+  color: #ffffff;
+}
+
+.shopping-list:hover {
+  transform: scale(1.05);
+}
+
+.shopping-list h2 {
+  font-size: 1.2em;
+  color: #ffffff;
+}
+
+.shopping-list div {
+  margin: 8px 0;
+  padding: 8px;
+  border-radius: 5px;
+  background-color: #333;
+  cursor: pointer;
+}
+
+.shopping-list div.completed {
+  text-decoration: line-through;
+  color: #757575;
+  background-color: #222;
+}
+
+.shopping-list button {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  background-color: #ff5252;
+  color: white;
+  cursor: pointer;
+}
+
+.shopping-list button:hover {
+  background-color: #ff1744;
+}
+
+.shopping-list .add-item {
+  background-color: #007bff;
+  margin-top: 10px;
+}
+
+.shopping-list .add-item:hover {
+  background-color: #0056b3;
+}
+
+/* Modálne okno pre členov */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  background: #222;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  color: #e0e0e0;
+  z-index: 10;
+}
+
+.modal h3 {
+  margin: 0;
+  margin-bottom: 15px;
+  font-size: 1.2em;
+}
+
+.modal input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 8px;
+  border-radius: 5px;
+  border: none;
+  background-color: #333;
+  color: #e0e0e0;
+}
+
+.modal button {
+  margin-top: 10px;
+  padding: 8px;
+  border: none;
+  border-radius: 5px;
+  background-color: #ff5252;
+  color: white;
+  cursor: pointer;
+  width: 100%;
+}
+
+.modal button.add-member {
+  background-color: #007bff;
+}
+
+.modal button.add-member:hover {
+  background-color: #0056b3;
+}
+
+.modal button.close {
+  background-color: #757575;
+}
+
+.modal button.close:hover {
+  background-color: #5a5a5a;
+}
+
+/* Efekt prekrývania pozadia modálneho okna */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9;
+}
+
+
+.dashboard {
+  padding: 20px;
+}
+
+.list-overview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.list-name {
+  background: #444;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 150px;
+  text-align: center;
+  margin-bottom: 10px;
+  transition: background 0.3s;
+}
+
+.list-name:hover {
+  background: #666;
+}
+
+.shopping-list {
+  background: #333;
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+  margin-top: 20px;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.delete-list {
+  background: #c44;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: #888;
+}
+
+
+.input-container {
+  display: flex;
+  justify-content: center; /* Vycentrovanie obsahu */
+  margin-top: 10px;
+}
+
+input[type="text"] {
+  width: 50%; /* Šírka 50% */
+  padding: 10px;
+  border-radius: 20px; /* Zaoblenie rohov */
+  background-color: rgba(128, 128, 128, 0.2); /* Polopriesvitná šedá farba */
+  border: 1px solid #ccc; /* Svetlý okraj */
+  color: white; /* Biela farba textu */
+  outline: none;
+  transition: background-color 0.3s;
+}
+
+input[type="text"]::placeholder {
+  color: rgba(255, 255, 255, 0.7); /* Polopriesvitná biela pre placeholder */
+}
+
+input[type="text"]:focus {
+  background-color: rgba(128, 128, 128, 0.4); /* Zmena farby na viac viditeľnú pri fokuse */
+}
+
+
+
