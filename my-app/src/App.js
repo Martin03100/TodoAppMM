@@ -19,7 +19,7 @@ function App() {
       {!user ? (
         <Login onLogin={handleLogin} />
       ) : (
-        <Dashboard user={user} onLogout={handleLogout} />  // Prenášame user ako prop
+        <Dashboard user={user} onLogout={handleLogout} />
       )}
     </div>
   );

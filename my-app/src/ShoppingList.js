@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import MembersModal from './MembersModal';
+import './App.css';
 
 function ShoppingList({ list, setLists, lists, user, onDelete }) {
   const [itemName, setItemName] = useState('');
@@ -38,6 +39,21 @@ function ShoppingList({ list, setLists, lists, user, onDelete }) {
       .catch(error => console.error('Error marking item as resolved:', error));
   };
 
+  const deleteItem = (itemId) => {
+    fetch('http://localhost:5000/api/deleteItem', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ listId: list._id, itemId })
+    })
+      .then(response => response.json())
+      .then(updatedList => {
+        setLists(lists.map(l => l._id === list._id ? updatedList : l));
+      })
+      .catch(error => console.error('Error deleting item:', error));
+  };
+
   return (
     <div>
       <h2>{list.name}</h2>
@@ -51,10 +67,12 @@ function ShoppingList({ list, setLists, lists, user, onDelete }) {
       />
       <button onClick={addItem}>Add Item</button>
       {list.items && (
-        <ul>
+        <ul className="item-list">
           {list.items.map(item => (
-            <li key={item._id} onClick={() => markItemAsResolved(item._id)}>
-              {item.itemName} {item.status === 'resolved' && '(resolved)'}
+            <li key={item._id} className={`item ${item.status === 'resolved' ? 'resolved' : ''}`}>
+              {item.itemName}
+              {item.status !== 'resolved' && <button className="mark-resolved" onClick={() => markItemAsResolved(item._id)}>✔</button>}
+              <button className="remove-item" onClick={() => deleteItem(item._id)}>✖</button>
             </li>
           ))}
         </ul>

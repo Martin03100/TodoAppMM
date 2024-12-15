@@ -199,6 +199,39 @@ app.post('/api/getMembers', async (req, res) => {
   }
 });
 
+app.post('/api/removeMember', async (req, res) => {
+  const { listId, memberId } = req.body;
+  try {
+    const list = await ShoppingList.findById(listId);
+    if (!list) {
+      return res.status(404).json({ error: 'List not found' });
+    }
+    list.members = list.members.filter(member => !member.equals(memberId));
+    await list.save();
+    res.json(list);
+  } catch (error) {
+    console.error('Error removing member:', error);
+    res.status(500).json({ error: 'Error removing member' });
+  }
+});
+
+app.post('/api/deleteItem', async (req, res) => {
+  const { listId, itemId } = req.body;
+  try {
+    const list = await ShoppingList.findById(listId);
+    if (!list) {
+      return res.status(404).json({ error: 'List not found' });
+    }
+    list.items.id(itemId).remove();
+    await list.save();
+    res.json(list);
+  } catch (error) {
+    console.error('Error deleting item:', error);
+    res.status(500).json({ error: 'Error deleting item' });
+  }
+});
+
+
 app.listen(5000, () => {
   console.log('Server is running on port 5000');
 });

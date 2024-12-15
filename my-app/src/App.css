@@ -139,6 +139,51 @@ body {
   background-color: #0056b3;
 }
 
+/* Štýly pre položky v zozname */
+.item-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #333;
+}
+
+.item.resolved {
+  text-decoration: line-through;
+  color: #757575;
+}
+
+.mark-resolved {
+  background: #28a745;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.mark-resolved:hover {
+  background: #218838;
+}
+
+.remove-item {
+  background: #dc3545;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.remove-item:hover {
+  background: #c82333;
+}
+
 /* Modálne okno pre členov */
 .modal {
   position: fixed;
@@ -197,8 +242,21 @@ body {
   background-color: #5a5a5a;
 }
 
+.remove-member {
+  background: none;
+  border: none;
+  color: #ff5252;
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 16px;
+}
+
+.remove-member:hover {
+  color: #ff1744;
+}
+
 /* Efekt prekrývania pozadia modálneho okna */
-.overlay {
+.modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -207,7 +265,6 @@ body {
   background: rgba(0, 0, 0, 0.5);
   z-index: 9;
 }
-
 
 .dashboard {
   padding: 20px;
@@ -270,31 +327,27 @@ button {
   color: #888;
 }
 
-
 .input-container {
   display: flex;
-  justify-content: center; /* Vycentrovanie obsahu */
+  justify-content: center;
   margin-top: 10px;
 }
 
 input[type="text"] {
-  width: 50%; /* Šírka 50% */
+  width: 50%;
   padding: 10px;
-  border-radius: 20px; /* Zaoblenie rohov */
-  background-color: rgba(128, 128, 128, 0.2); /* Polopriesvitná šedá farba */
-  border: 1px solid #ccc; /* Svetlý okraj */
-  color: white; /* Biela farba textu */
+  border-radius: 20px;
+  background-color: rgba(128, 128, 128, 0.2);
+  border: 1px solid #ccc;
+  color: white;
   outline: none;
   transition: background-color 0.3s;
 }
 
 input[type="text"]::placeholder {
-  color: rgba(255, 255, 255, 0.7); /* Polopriesvitná biela pre placeholder */
+  color: rgba(255, 255, 255, 0.7);
 }
 
 input[type="text"]:focus {
-  background-color: rgba(128, 128, 128, 0.4); /* Zmena farby na viac viditeľnú pri fokuse */
+  background-color: rgba(128, 128, 128, 0.4);
 }
-
-
-
