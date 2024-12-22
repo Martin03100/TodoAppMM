@@ -1,7 +1,20 @@
 /* Celkové nastavenie farieb a fontov pre tmavší režim */
-body {
+body.dark-mode {
   background-color: #121212;
   color: #e0e0e0;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Celkové nastavenie farieb a fontov pre svetlý režim */
+body.light-mode {
+  background-color: #ffffff;
+  color: #121212;
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
@@ -16,6 +29,23 @@ body {
   width: 100%;
   max-width: 1200px;
   padding: 20px;
+}
+
+/* Tlačidlo na prepínanie režimov */
+.toggle-mode {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+}
+
+.toggle-mode:hover {
+  background-color: #0056b3;
 }
 
 /* Štýly pre prihlásenie */
@@ -56,9 +86,7 @@ body {
   align-items: center;
 }
 
-.dashboard h1 {
-  color: #ffffff;
-}
+
 
 .dashboard button {
   padding: 10px 20px;
@@ -71,6 +99,19 @@ body {
 }
 
 .dashboard button:hover {
+  background-color: #0056b3;
+}
+
+/* Štýly pre Dashboard v svetlom režime */
+.App.light-mode .dashboard {
+  color: #121212;
+}
+
+.App.light-mode .dashboard button {
+  background-color: #007bff;
+}
+
+.App.light-mode .dashboard button:hover {
   background-color: #0056b3;
 }
 
@@ -139,6 +180,22 @@ body {
   background-color: #0056b3;
 }
 
+/* Štýly pre ShoppingList v svetlom režime */
+.App.light-mode .shopping-list {
+  background-color: #ffffff;
+  color: #121212;
+}
+
+.App.light-mode .shopping-list div {
+  background-color: #f0f0f0;
+  color: #121212;
+}
+
+.App.light-mode .shopping-list div.completed {
+  background-color: #dddddd;
+  color: #757575;
+}
+
 /* Štýly pre položky v zozname */
 .item-list {
   list-style-type: none;
@@ -181,6 +238,27 @@ body {
 }
 
 .remove-item:hover {
+  background: #c82333;
+}
+
+/* Štýly pre svetlý režim */
+.App.light-mode .item {
+  border-bottom: 1px solid #cccccc;
+}
+
+.App.light-mode .mark-resolved {
+  background: #28a745;
+}
+
+.App.light-mode .mark-resolved:hover {
+  background: #218838;
+}
+
+.App.light-mode .remove-item {
+  background: #dc3545;
+}
+
+.App.light-mode .remove-item:hover {
   background: #c82333;
 }
 
@@ -255,6 +333,17 @@ body {
   color: #ff1744;
 }
 
+/* Štýly pre modálne okno v svetlom režime */
+.App.light-mode .modal {
+  background: #ffffff;
+  color: #121212;
+}
+
+.App.light-mode .modal input {
+  background-color: #f0f0f0;
+  color: #121212;
+}
+
 /* Efekt prekrývania pozadia modálneho okna */
 .modal-overlay {
   position: fixed;
@@ -266,6 +355,7 @@ body {
   z-index: 9;
 }
 
+/* Ďalšie všeobecné štýly */
 .dashboard {
   padding: 20px;
 }
@@ -350,4 +440,68 @@ input[type="text"]::placeholder {
 
 input[type="text"]:focus {
   background-color: rgba(128, 128, 128, 0.4);
+}
+
+/* Svetlý režim pre vstupné pole */
+.App.light-mode input[type="text"] {
+  background-color: rgba(200, 200, 200, 0.2);
+  color: #121212;
+  border: 1px solid #ccc;
+}
+
+.App.light-mode input[type="text"]::placeholder {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.App.light-mode input[type="text"]:focus {
+  background-color: rgba(200, 200, 200, 0.4);
+}
+
+.language-selector {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+}
+
+.language-selector button {
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+}
+
+.language-dropdown {
+  position: absolute;
+  top: 35px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.language-dropdown li {
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.language-dropdown li:hover {
+  background-color: #f0f0f0;
+}
+
+.welcome-text {
+  color: inherit;
+}
+
+.App.light-mode .welcome-text {
+  color: #121212;
+}
+
+.App.dark-mode .welcome-text {
+  color: #e0e0e0;
 }

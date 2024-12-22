@@ -4,9 +4,9 @@ import './App.css';
 function MembersModal({ list, setLists, user, setShowMembers }) {
   const [username, setUsername] = useState('');
   const [members, setMembers] = useState([]);
+  const [isOwner, setIsOwner] = useState(false);
 
   useEffect(() => {
-    // Načítanie zoznamu členov z backendu
     const fetchMembers = async () => {
       try {
         const response = await fetch('http://localhost:5000/api/getMembers', {
@@ -21,6 +21,7 @@ function MembersModal({ list, setLists, user, setShowMembers }) {
         }
         const data = await response.json();
         setMembers(data.members);
+        console.log('Members fetched:', data.members);
       } catch (error) {
         console.error('Error fetching members:', error);
       }
@@ -28,6 +29,33 @@ function MembersModal({ list, setLists, user, setShowMembers }) {
 
     fetchMembers();
   }, [list]);
+
+  useEffect(() => {
+    const checkIfOwner = async () => {
+      try {
+        console.log('Checking owner with user:', user);
+        const response = await fetch('http://localhost:5000/api/checkOwner', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ listId: list._id, userId: user._id })
+        });
+        const data = await response.json();
+        setIsOwner(data.isOwner);
+        console.log('Is Owner:', data.isOwner);
+      } catch (error) {
+        console.error('Error checking owner:', error);
+      }
+    };
+
+    if (user && user._id) {
+      console.log('User ID is defined:', user._id);
+      checkIfOwner();
+    } else {
+      console.error('User ID is undefined:', user);
+    }
+  }, [list, user]);
 
   const inviteMember = () => {
     fetch('http://localhost:5000/api/inviteMember', {
@@ -47,12 +75,12 @@ function MembersModal({ list, setLists, user, setShowMembers }) {
         setLists(prevLists => prevLists.map(l => l._id === list._id ? updatedList : l));
         setUsername('');
         setMembers(updatedList.members);  // Aktualizácia zoznamu členov
+        console.log('Member invited:', updatedList.members);
       })
       .catch(error => console.error('Error inviting member:', error));
   };
 
   const removeMember = (memberId) => {
-    // API volanie pre odstránenie člena zo zoznamu
     fetch('http://localhost:5000/api/removeMember', {
       method: 'POST',
       headers: {
@@ -69,6 +97,7 @@ function MembersModal({ list, setLists, user, setShowMembers }) {
       .then(updatedList => {
         setLists(prevLists => prevLists.map(l => l._id === list._id ? updatedList : l));
         setMembers(updatedList.members);
+        console.log('Member removed:', updatedList.members);
       })
       .catch(error => console.error('Error removing member:', error));
   };
@@ -90,7 +119,12 @@ function MembersModal({ list, setLists, user, setShowMembers }) {
         <ul>
           {members.map(member => (
             <li key={member._id} className="member-item">
-              {member.username} {member._id !== user._id && <button className="remove-member" onClick={() => removeMember(member._id)}>✖</button>}
+              {member.username} 
+              {isOwner && member._id !== user._id && (
+                <button className="remove-member" onClick={() => removeMember(member._id)} style={{ backgroundColor: 'yellow', color: 'black' }}>
+                  Remove {member.username}
+                </button>
+              )}
             </li>
           ))}
         </ul>
@@ -100,3 +134,4 @@ function MembersModal({ list, setLists, user, setShowMembers }) {
 }
 
 export default MembersModal;
+

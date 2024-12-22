@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import MembersModal from './MembersModal';
+import { useTranslation } from 'react-i18next';
 import './App.css';
 
 function ShoppingList({ list, setLists, lists, user, onDelete }) {
   const [itemName, setItemName] = useState('');
   const [showMembers, setShowMembers] = useState(false);
+  const { t } = useTranslation();
 
   const addItem = () => {
     if (itemName) {
@@ -57,15 +59,15 @@ function ShoppingList({ list, setLists, lists, user, onDelete }) {
   return (
     <div>
       <h2>{list.name}</h2>
-      <button onClick={onDelete}>Delete List</button>
-      <button onClick={() => setShowMembers(true)}>Manage Members</button>
+      <button onClick={onDelete}>{t("delete_list")}</button>
+      <button onClick={() => setShowMembers(true)}>{t("manage_members")}</button>
       <input
         type="text"
-        placeholder="Add item"
+        placeholder={t("add_item")}
         value={itemName}
         onChange={(e) => setItemName(e.target.value)}
       />
-      <button onClick={addItem}>Add Item</button>
+      <button onClick={addItem}>{t("add_item")}</button>
       {list.items && (
         <ul className="item-list">
           {list.items.map(item => (

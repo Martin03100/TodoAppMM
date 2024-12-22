@@ -40,7 +40,7 @@ app.post('/api/register', async (req, res) => {
     const newUser = new User({ username, email, password: hashedPassword });
     await newUser.save();
     console.log('New user created:', newUser);
-    res.json(newUser);
+    res.json(newUser); // Vraciame celý objekt používateľa
   } catch (error) {
     console.error('Error registering user:', error);
     res.status(500).json({ error: 'Error registering user' });
@@ -54,7 +54,7 @@ app.post('/api/login', async (req, res) => {
     const user = await User.findOne({ username });
     if (user && await bcrypt.compare(password, user.password)) {
       console.log('User authenticated:', user);
-      res.json({ username: user.username });
+      res.json(user); 
     } else {
       console.error('Invalid credentials for user:', username);
       res.status(401).json({ error: 'Invalid credentials' });
@@ -64,6 +64,8 @@ app.post('/api/login', async (req, res) => {
     res.status(500).json({ error: 'Error logging in user' });
   }
 });
+
+
 
 app.post('/api/createShoppingList', async (req, res) => {
   const { name, owner } = req.body;
@@ -217,19 +219,52 @@ app.post('/api/removeMember', async (req, res) => {
 
 app.post('/api/deleteItem', async (req, res) => {
   const { listId, itemId } = req.body;
+  console.log('Received request to delete item:', req.body); // Log pre kontrolu prijatých dát
+
   try {
     const list = await ShoppingList.findById(listId);
     if (!list) {
+      console.log('List not found with id:', listId);
       return res.status(404).json({ error: 'List not found' });
     }
-    list.items.id(itemId).remove();
+
+    console.log('Before removing item:', list);
+    list.items = list.items.filter(item => item._id.toString() !== itemId);
+    console.log('After removing item:', list);
+
     await list.save();
+    console.log('Item removed successfully:', itemId);
     res.json(list);
   } catch (error) {
     console.error('Error deleting item:', error);
     res.status(500).json({ error: 'Error deleting item' });
   }
 });
+
+app.post('/api/checkOwner', async (req, res) => {
+  const { listId, userId } = req.body;
+  console.log('Received checkOwner request:', req.body);
+  if (!userId) {
+    console.error('User ID is undefined');
+    return res.status(400).json({ error: 'User ID is required' });
+  }
+  try {
+    const list = await ShoppingList.findById(listId);
+    if (!list) {
+      console.error('List not found:', listId);
+      return res.status(404).json({ error: 'List not found' });
+    }
+    console.log('List owner:', list.owner);
+    console.log('User ID:', userId);
+    const isOwner = list.owner.equals(userId);
+    console.log('Is Owner:', isOwner);
+    res.json({ isOwner });
+  } catch (error) {
+    console.error('Error checking owner:', error);
+    res.status(500).json({ error: 'Error checking owner' });
+  }
+});
+
 
 
 app.listen(5000, () => {

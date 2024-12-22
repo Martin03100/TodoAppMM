@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import './App.css';
 
 function Login({ onLogin }) {
+  const { t } = useTranslation();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -11,9 +13,6 @@ function Login({ onLogin }) {
     e.preventDefault();
     const url = isRegister ? 'http://localhost:5000/api/register' : 'http://localhost:5000/api/login';
     const body = isRegister ? { username, email, password } : { username, password };
-
-    console.log('Submitting to:', url);
-    console.log('Request body:', body);
 
     try {
       const response = await fetch(url, {
@@ -25,14 +24,12 @@ function Login({ onLogin }) {
       });
 
       if (!response.ok) {
-        console.error('Network response was not ok:', response);
         throw new Error('Network response was not ok');
       }
 
       const data = await response.json();
-      console.log('Response data:', data);
-
-      onLogin(data.username);
+      console.log('User data:', data);
+      onLogin(data); // Predáme celé používateľské dáta vrátane ID
     } catch (error) {
       console.error('Error occurred:', error);
     }
@@ -42,7 +39,7 @@ function Login({ onLogin }) {
     <form onSubmit={handleSubmit} className="login-form">
       <input
         type="text"
-        placeholder="Enter username"
+        placeholder={t('username')}
         value={username}
         onChange={(e) => setUsername(e.target.value)}
         required
@@ -50,7 +47,7 @@ function Login({ onLogin }) {
       {isRegister && (
         <input
           type="email"
-          placeholder="Enter email"
+          placeholder={t('email')}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -58,14 +55,14 @@ function Login({ onLogin }) {
       )}
       <input
         type="password"
-        placeholder="Enter password"
+        placeholder={t('password')}
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         required
       />
-      <button type="submit">{isRegister ? 'Register' : 'Login'}</button>
+      <button type="submit">{isRegister ? t('register') : t('login')}</button>
       <button type="button" onClick={() => setIsRegister(!isRegister)}>
-        {isRegister ? 'Switch to Login' : 'Switch to Register'}
+        {isRegister ? t('switch_to_login') : t('switch_to_register')}
       </button>
     </form>
   );

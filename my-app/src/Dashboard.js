@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import ShoppingList from './ShoppingList';
+import { useTranslation } from 'react-i18next';
 
 function Dashboard({ user, onLogout }) {
+  const { t } = useTranslation();
   const [lists, setLists] = useState([]);
   const [selectedList, setSelectedList] = useState(null);
 
@@ -12,9 +14,8 @@ function Dashboard({ user, onLogout }) {
   }, [user.username]);
 
   const addList = () => {
-    const newListName = prompt("Enter list name:");
+    const newListName = prompt(t("enter_list_name"));
     if (newListName) {
-      console.log('Sending request to create shopping list:', newListName);
       fetch('http://localhost:5000/api/createShoppingList', {
         method: 'POST',
         headers: {
@@ -24,7 +25,6 @@ function Dashboard({ user, onLogout }) {
       })
         .then(response => response.json())
         .then(newList => {
-          console.log('New list created:', newList);
           setLists([...lists, newList]);
         })
         .catch(error => console.error('Error creating shopping list:', error));
@@ -62,27 +62,32 @@ function Dashboard({ user, onLogout }) {
 
   return (
     <div className="dashboard">
-      <h1>Welcome, {user.username}</h1>
-      <button onClick={onLogout}>Logout</button>
-      <button onClick={addList}>Add List</button>
-
-      <div className="list-overview">
-        {lists.map((list, index) => (
-          <div key={index} className="list-name" onClick={() => handleListClick(list)}>
-            {list.name}
-          </div>
-        ))}
+      <div className="dashboard-header">
+        <h1 className="welcome-text">{t("welcome")}, {user.username}</h1>
+        <button onClick={onLogout}>{t("logout")}</button>
       </div>
+      <div className="dashboard-content">
+        <button onClick={addList}>{t("add_list")}</button>
+        <div className="list-overview">
+          {lists.map((list, index) => (
+            <div key={index} className="list-name" onClick={() => handleListClick(list)}>
+              {list.name}
+            </div>
+          ))}
+        </div>
 
-      {selectedList && (
-        <ShoppingList
-          list={selectedList}
-          setLists={setLists}
-          lists={lists}
-          user={user}
-          onDelete={deleteList}
-        />
-      )}
+        {selectedList && (
+          <>
+            <ShoppingList
+              list={selectedList}
+              setLists={setLists}
+              lists={lists}
+              user={user}
+              onDelete={deleteList}
+            />
+          </>
+        )}
+      </div>
     </div>
   );
 }
