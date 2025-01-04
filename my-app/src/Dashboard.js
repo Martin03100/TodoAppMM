@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import ShoppingList from './ShoppingList';
 import { useTranslation } from 'react-i18next';
+import AddListModal from './AddListModal';
 
 function Dashboard({ user, onLogout }) {
   const { t } = useTranslation();
   const [lists, setLists] = useState([]);
   const [selectedList, setSelectedList] = useState(null);
+  const [showAddList, setShowAddList] = useState(false);
 
   useEffect(() => {
     fetch(`http://localhost:5000/api/getShoppingLists?username=${user.username}`)
@@ -13,22 +15,8 @@ function Dashboard({ user, onLogout }) {
       .then(data => setLists(data));
   }, [user.username]);
 
-  const addList = () => {
-    const newListName = prompt(t("enter_list_name"));
-    if (newListName) {
-      fetch('http://localhost:5000/api/createShoppingList', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ name: newListName, owner: user.username })
-      })
-        .then(response => response.json())
-        .then(newList => {
-          setLists([...lists, newList]);
-        })
-        .catch(error => console.error('Error creating shopping list:', error));
-    }
+  const handleListClick = (list) => {
+    setSelectedList(list);
   };
 
   const deleteList = () => {
@@ -42,15 +30,11 @@ function Dashboard({ user, onLogout }) {
       })
         .then(response => response.json())
         .then(() => {
-          setLists(lists.filter((list) => list !== selectedList));
+          setLists(lists.filter((list) => list._id !== selectedList._id));
           setSelectedList(null);
         })
         .catch(error => console.error('Error deleting shopping list:', error));
     }
-  };
-
-  const handleListClick = (list) => {
-    setSelectedList(list);
   };
 
   useEffect(() => {
@@ -67,7 +51,7 @@ function Dashboard({ user, onLogout }) {
         <button onClick={onLogout}>{t("logout")}</button>
       </div>
       <div className="dashboard-content">
-        <button onClick={addList}>{t("add_list")}</button>
+        <button onClick={() => setShowAddList(true)}>{t("add_list")}</button>
         <div className="list-overview">
           {lists.map((list, index) => (
             <div key={index} className="list-name" onClick={() => handleListClick(list)}>
@@ -87,6 +71,7 @@ function Dashboard({ user, onLogout }) {
             />
           </>
         )}
+        {showAddList && <AddListModal setLists={setLists} lists={lists} user={user} setShowAddList={setShowAddList} />}
       </div>
     </div>
   );

@@ -23,7 +23,12 @@ const resources = {
       czech: "Czech",
       english: "English",
       add_item: "Add Item",
-      // Other translations...
+      add_new_list: "Add New List",
+      list_name: "List Name",
+      add: "Add",
+      invite_member: "Invite Member",
+      members: "Members",
+      remove: "Remove",
     }
   },
   sk: {
@@ -47,7 +52,12 @@ const resources = {
       czech: "Český",
       english: "Anglický",
       add_item: "Pridať položku",
-      // Other translations...
+      add_new_list: "Pridať nový zoznam",
+      list_name: "Názov zoznamu",
+      add: "Pridať",
+      invite_member: "Pozvať člena",
+      members: "Členovia",
+      remove: "Odstrániť",
     }
   },
   cs: {
@@ -71,7 +81,12 @@ const resources = {
       czech: "Český",
       english: "Anglický",
       add_item: "Přidat položku",
-      // Other translations...
+      add_new_list: "Přidat nový seznam",
+      list_name: "Název seznamu",
+      add: "Přidat",
+      invite_member: "Pozvat člena",
+      members: "Členové",
+      remove: "Odstranit",
     }
   }
 };
@@ -81,7 +96,7 @@ i18n
   .init({
     resources,
     lng: "sk", // Predvolený jazyk
-    fallbackLng: "sk", // Záložný jazyk, ak niektorý preklad chýba
+    fallbackLng: "sk", 
     interpolation: {
       escapeValue: false 
     }

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import './App.css';
 
 function MembersModal({ list, setLists, user, setShowMembers }) {
+  const { t } = useTranslation();
   const [username, setUsername] = useState('');
   const [members, setMembers] = useState([]);
   const [isOwner, setIsOwner] = useState(false);
@@ -74,7 +76,7 @@ function MembersModal({ list, setLists, user, setShowMembers }) {
       .then(updatedList => {
         setLists(prevLists => prevLists.map(l => l._id === list._id ? updatedList : l));
         setUsername('');
-        setMembers(updatedList.members);  // Aktualizácia zoznamu členov
+        setMembers(updatedList.members);
         console.log('Member invited:', updatedList.members);
       })
       .catch(error => console.error('Error inviting member:', error));
@@ -107,22 +109,22 @@ function MembersModal({ list, setLists, user, setShowMembers }) {
       <div className="modal-overlay" onClick={() => setShowMembers(false)}></div>
       <div className="modal">
         <span className="modal-close" onClick={() => setShowMembers(false)}>✖</span>
-        <h2>Invite Member</h2>
+        <h2>{t('invite_member')}</h2>
         <input
           type="text"
-          placeholder="Username"
+          placeholder={t('username')}
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
-        <button onClick={inviteMember}>Invite</button>
-        <h3>Members</h3>
+        <button onClick={inviteMember}>{t('invite_member')}</button>
+        <h3>{t('members')}</h3>
         <ul>
-          {members.map(member => (
-            <li key={member._id} className="member-item">
+          {members.map((member, index) => (
+            <li key={`${member._id}-${index}`} className="member-item">
               {member.username} 
               {isOwner && member._id !== user._id && (
                 <button className="remove-member" onClick={() => removeMember(member._id)} style={{ backgroundColor: 'yellow', color: 'black' }}>
-                  Remove {member.username}
+                  {t('remove')}
                 </button>
               )}
             </li>
@@ -134,4 +136,3 @@ function MembersModal({ list, setLists, user, setShowMembers }) {
 }
 
 export default MembersModal;
-
